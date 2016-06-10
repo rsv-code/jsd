@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Device Failure",
+  "description": "An unexpected device failure occurred.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer",
+      "title": "Error Code",
+      "description": "A integer with the device failure code.",
+      "readonly": true
+    },
+    "description": {
+      "type": "string",
+      "title": "Error String",
+      "description": "The error string.",
+      "readonly": true
+    }
+  }
+}

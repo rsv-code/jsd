@@ -1,0 +1,25 @@
+{
+  "name": "simpleLightControl",
+  "title": "Simple Light Control",
+  "description": "Provides an interface for controlling a basic on/off light switch.",
+  "types": {
+    "lightStatus": "/lighting/lightStatus.schema.json",
+    "deviceFailure": "/lighting/deviceFailure.schema.json"
+  },
+  "methods": {
+    "getLightStatus": {
+      "title": "Get Light Status",
+      "description": "Gets the status (on/off) of the light.",
+      "param": null,
+      "result": "lightStatus",
+      "errors": [ "deviceFailure" ]
+    },
+    "setLightStatus": {
+      "title": "Set Light Status",
+      "description": "Sets the status (on/off) of the light.",
+      "param": "lightStatus",
+      "result": null,
+      "errors": [ "deviceFailure" ]
+    }
+  }
+}

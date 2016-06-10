@@ -1,0 +1,17 @@
+{
+	"name":"jsd",
+	"version":"1.0.0",
+	"keyWords":["jsd", "json-rpc", "json schema", "schema", "json", "service", "definition"],
+	"author":"Austin Lehman",
+	"authorEmail":"lehman.austin@gmail.com",
+	"org":"JSD",
+	"license":"BSD 3-Clause License",
+	"licenseFile":"LICENSE",
+	"repo":"https://github.com/rsv-code/jsd.git",
+	"bugs":"https://github.com/rsv-code/jsd/issues",
+	"homePage":"https://github.com/rsv-code/jsd",
+	"dependencies":[],
+	"devDependencies":[],
+	"tests":[],
+	"build":""
+}

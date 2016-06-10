@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JSD Test Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jsenv.js"></script>
+    <script src="js/tv4.js"></script>
+    <script src="js/JsdClient.js"></script>
+    <script src="js/jsoneditor.min.js"></script>
+    <script>
+
+// Create a global instance of the JSD client.
+cli = new JsdClient(window.location.origin);
+ready = false;
+
+// This is called once the initial call to getLightStatus has completed.
+function onInitialLoad (robj) {
+  // Create the editor with our schema.
+  editor = new JSONEditor($("#jeditor")[0], {
+    ajax: true,                       // Auto load $ref URLs.
+    theme: 'bootstrap3',              // Use Bootstrap 3 theme.
+    iconlib: 'bootstrap3',            // Use Bootstrap 3 icons.
+    disable_collapse: true,           // Don't show the collapse button.
+    disable_edit_json: true,          // Don't show the JSON button.
+    disable_properties: true,         // Don't show the properties button.
+    startval: robj.result,            // Set the editor with the initial value.
+    schema: cli.schemas["/lighting/lightStatus.schema.json"]
+  });
+
+  editor.on('change', onEditorChange);
+}
+
+function onEditorChange() {
+  if (ready) {
+    console.log("editor.getValue(): " + editor.getValue());
+    editor.disable();
+    cli.callMethod("/lighting/lightSimple", "setLightStatus", editor.getValue(), onChangeResult, onError);
+  } else { ready = true; }
+}
+
+function onChangeResult(robj) {
+  // Re-enable the editor.
+  editor.enable();
+}
+
+function onError (e) {
+  console.error(e);
+  alert('Ooops, something went wrong with the request.');
+
+  // Re-enable the editor.
+  if (isDef(editor)) { editor.enable(); }
+}
+
+// Ask bootstrap to let us know when the document has loaded.
+$(document).ready(function () {
+  cli.callMethod("/lighting/lightSimple", "getLightStatus", null, onInitialLoad, onError);
+});
+    </script>
+  </head>
+  <body>
+    <div class="container ctr">
+      <h1>JSD Server Example</h1>
+      <h3>Interfaces:</h3>
+      <ul>
+        <li><a href="/lighting/lightSimple">/lighting/lightSimple</a></li>
+      </ul>
+      <h3>Schema:</h3>
+      <ul>
+        <li><a href="/lighting/lightStatus.schema.json">/lighting/lightStatus.schema.json</a></li>
+        <li><a href="/lighting/deviceFailure.schema.json">/lighting/deviceFailure.schema.json</a></li>
+      </ul>
+      <br><br>
+      <!-- This is where the editor for light on/off will go. -->
+      <div id="jeditor"></div>
+    </div>
+  </body>
+</html>
